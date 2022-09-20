@@ -61,10 +61,18 @@ console.log("Each player has 7 cards. We are ready to start playing!")
 // Let's check if there are cards in deck. If not, shuffle discards and reassign.
 
 if (mainDeck.length == 0) {
-  discards.flat().sort(function () {
+  discards.sort(function () {
     return Math.random() - 0.5;
   })
   mainDeck = discards;
   discards = [];
   console.log("There are no cards remaining in the deck, so we have shuffled the discard pile.")
 }
+
+// If player has less than 7 cards, pick one from main deck.
+if (player1.hand.length < 7) {
+  player1.hand.push(mainDeck.splice(0, 1));
+  console.log(`${player1.name} has taken a card from the deck.`)
+}
+
+// If player has 2 repeated ingredients, discard one and pick one.
