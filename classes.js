@@ -16,7 +16,7 @@ class IngredientCard {
         this.ingredient = ingredient;
     }
     static createIngredientCard() {
-        const ingredients = ["cat whiskers", "unicorn horn", "chicken lips", "dragon's breath", "dandruff", "rue", "antimony"];
+        const ingredients = ["cat whisker", "unicorn horn", "chicken lip", "dragon's breath", "dandruff", "rue", "antimony"];
         const randomIngredientIndex = Math.floor(Math.random() * 7);
         return new IngredientCard(ingredients[randomIngredientIndex]);
     }

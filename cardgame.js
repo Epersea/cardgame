@@ -54,6 +54,48 @@ function findHighestDefenseInMonster(hand) {
   return defenseScore;
 }
 
+function playRound(player, rival, deck, discards) {
+  // Status check
+  console.log(`This is ${player.name} hand:`)
+  console.log(player.hand);
+  // If player has less than 7 cards, pick one from main deck.
+  if (player.hand.length < 7) {
+    player.hand.push(deck.splice(0, 1));
+    player.hand = player.hand.flat();
+    console.log(`${player.name} has taken a card from the deck.`)
+  }
+
+  // If player has 2 repeated ingredients, discard one and pick one.
+  else if (checkIfRepeatedIngredients(player.hand)) {
+    let repeatedIndex = checkIfRepeatedIngredients(player.hand);
+    discards.push(player.hand.splice(repeatedIndex, 1));
+    player.hand.push(deck.splice(0, 1));
+    player.hand = player.hand.flat();
+    console.log(`${player.name} has discarded a repeated ingredient and taken a card from the deck.`)
+  }
+
+  // Else, attack with monster
+  else {
+    console.log("Time for a monster attack!")
+    // Find monster with highest attack from player hand
+    opponentAttack = findHighestAttackInMonster(player.hand);
+    console.log(opponentAttack)
+    // Find monster with highest defense from opponent hand (if no monster, 0)
+    defenderDefense = findHighestDefenseInMonster(rival.hand)
+    console.log(defenderDefense)
+    // Compare both
+    // If attacker wins, steal card from opponent. Else, do nothing.
+    if (opponentAttack > defenderDefense) {
+      stolenCard = Math.floor(Math.random() * rival.hand.length);
+      player.hand.push(rival.hand.splice(stolenCard, 1));
+      player.hand = player.hand.flat();
+      console.log(`${player.name} wins! They have stolen a card from their rival's deck.`)
+    } else {
+      console.log(`${player.name} loses. Their rival's cards are safe for now.`)
+    }
+  }
+}
+
 // Let's simulate a game!
 
 // Create two players
@@ -63,7 +105,7 @@ let player2 = new Player("player2");
 
 // Create a new deck of cards and shuffle it.
 
-let mainDeck = new DeckOfCards(20, 20).shuffle();
+let mainDeck = new DeckOfCards(20, 40).shuffle();
 
 console.log("Cards are shuffled...")
 
@@ -94,8 +136,6 @@ while (checkIf5DifferentIngredients(player2.hand)) {
 
 console.log("Each player has 7 cards. We are ready to start playing!")
 
-// FIRST ROUND, PLAYER ONE
-
 // Let's check if there are cards in deck. If not, shuffle discards and reassign.
 
 if (mainDeck.length == 0) {
@@ -106,44 +146,20 @@ if (mainDeck.length == 0) {
   discardsPile = [];
   console.log("There are no cards remaining in the deck, so we have shuffled the discard pile.")
 }
-console.log(`This is ${player1.name} hand:`)
-console.log(player1.hand);
 
-function playRound(player, rival, deck, discards) {
-  // If player has less than 7 cards, pick one from main deck.
-  if (player.hand.length < 7) {
-    player.hand.push(deck.splice(0, 1));
-    console.log(`${player.name} has taken a card from the deck.`)
-  }
+// Playing rounds
 
-  // If player has 2 repeated ingredients, discard one and pick one.
-  else if (checkIfRepeatedIngredients(player.hand)) {
-    let repeatedIndex = checkIfRepeatedIngredients(player.hand);
-    discards.push(player.hand.splice(repeatedIndex, 1));
-    player.hand.push(deck.splice(0, 1));
-    console.log(`${player.name} has discarded a repeated ingredient and taken a card from the deck.`)
-  }
-
-  // Else, attack with monster
-  else {
-    console.log("Time for a monster attack!")
-    // Find monster with highest attack from player hand
-    opponentAttack = findHighestAttackInMonster(player.hand);
-    console.log(opponentAttack)
-    // Find monster with highest defense from opponent hand (if no monster, 0)
-    defenderDefense = findHighestDefenseInMonster(rival.hand)
-    console.log(defenderDefense)
-    // Compare both
-    // If attacker wins, steal card from opponent. Else, do nothing.
-    if (opponentAttack > defenderDefense) {
-      stolenCard = Math.floor(Math.random() * rival.hand.length);
-      player.hand.push(rival.hand.splice(stolenCard, 1));
-      player.hand = player.hand.flat();
-      console.log(`${player.name} wins! They have stolen a card from their rival's deck.`)
-    } else {
-      console.log(`${player.name} loses. Their rival's cards are safe for now.`)
-    }
-  }
+while(true) {
+  playRound(player1, player2, mainDeck, discardsPile);
+console.log(player1.hand)
+if (checkIf5DifferentIngredients(player1.hand)) {
+  console.log(`${player1.name} wins! The game is over.`);
+  break;
 }
-
-playRound(player1, player2, mainDeck, discardsPile);
+playRound(player2, player1, mainDeck, discardsPile);
+console.log(player2.hand)
+if (checkIf5DifferentIngredients(player2.hand)) {
+  console.log(`${player2.name} wins! The game is over.`);
+  break;
+}
+}
