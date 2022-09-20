@@ -58,6 +58,30 @@ function playRound(player, rival, deck, discards) {
   // Status check
   console.log(`This is ${player.name} hand:`)
   console.log(player.hand);
+
+  // If player has more than 7 cards, discard one
+  if (player.hand.length > 7) {
+    // Repeated ingredient
+    if (checkIfRepeatedIngredients(player.hand)) {
+      let repeatedIndex = checkIfRepeatedIngredients(player.hand);
+      discards.push(player.hand.splice(repeatedIndex, 1));
+      console.log(`${player.name} has discarded a repeated ingredient.`)
+    } 
+    else {
+      // Lowest attack monster
+      let monsterIndex;
+      for (let i = 0; i < player.hand.length; i++) {
+        if (player.hand[i].attack) {
+          if (!monsterIndex || player.hand[i].attack < player.hand[monsterIndex].attack) {
+            monsterIndex = i;
+          }
+        }
+      }
+      discards.push(player.hand.splice(monsterIndex, 1));
+      console.log(`${player.name} has discarded a weak monster.`)
+    }
+  }
+
   // If player has less than 7 cards, pick one from main deck.
   if (player.hand.length < 7) {
     player.hand.push(deck.splice(0, 1));
@@ -148,18 +172,20 @@ if (mainDeck.length == 0) {
 }
 
 // Playing rounds
-
-while(true) {
+let round = 1;
+while(round < 10) {
   playRound(player1, player2, mainDeck, discardsPile);
-console.log(player1.hand)
 if (checkIf5DifferentIngredients(player1.hand)) {
   console.log(`${player1.name} wins! The game is over.`);
   break;
 }
 playRound(player2, player1, mainDeck, discardsPile);
-console.log(player2.hand)
 if (checkIf5DifferentIngredients(player2.hand)) {
   console.log(`${player2.name} wins! The game is over.`);
   break;
+}
+round++;
+if (round == 10) {
+  console.log("Looks like none of our players can prevail. We shall declare this a tie.")
 }
 }
