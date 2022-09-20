@@ -1,125 +1,5 @@
 const { MonsterCard, IngredientCard, DeckOfCards, Player} = require('./classes.js'); 
 
-// Check if 5 different ingredients in hand (winning condition)
-function checkIf5DifferentIngredients(hand) {
-    const differentIngredients = []
-    for (let i = 0; i < hand.length; i++) {
-        if (hand[i].ingredient) {
-            if (!differentIngredients.includes(hand[i].ingredient)) {
-                differentIngredients.push(hand[i].ingredient)
-              }
-        }
-    }
-    if (differentIngredients.length >= 5) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-// Check if repeated ingredients in hand
-function checkIfRepeatedIngredients(hand) {
-  const differentIngredients = [];
-  for (let i = 0; i < hand.length; i++) {
-    if (hand[i].ingredient) {
-      if (differentIngredients.includes(hand[i].ingredient)) {
-        return i;
-        break;
-      } else {
-        differentIngredients.push(hand[i].ingredient);
-      }
-    }
-  } 
-  return false;
-}
-
-// Find highest score in monster
-function findHighestAttackInMonster(hand) {
-  let attackScore = 0;
-  for (let i = 0; i < hand.length; i++) {
-    if (hand[i].attack > attackScore) {
-      attackScore = hand[i].attack;
-    }
-  }
-  return attackScore;
-}
-
-function findHighestDefenseInMonster(hand) {
-  let defenseScore = 0;
-  for (let i = 0; i < hand.length; i++) {
-    if (hand[i].defense > defenseScore) {
-      defenseScore = hand[i].defense;
-    }
-  }
-  return defenseScore;
-}
-
-function playRound(player, rival, deck, discards) {
-  // Status check
-  console.log(`This is ${player.name} hand:`)
-  console.log(player.hand);
-
-  // If player has more than 7 cards, discard one
-  if (player.hand.length > 7) {
-    // Repeated ingredient
-    if (checkIfRepeatedIngredients(player.hand)) {
-      let repeatedIndex = checkIfRepeatedIngredients(player.hand);
-      discards.push(player.hand.splice(repeatedIndex, 1));
-      console.log(`${player.name} has discarded a repeated ingredient.`)
-    } 
-    else {
-      // Lowest attack monster
-      let monsterIndex;
-      for (let i = 0; i < player.hand.length; i++) {
-        if (player.hand[i].attack) {
-          if (!monsterIndex || player.hand[i].attack < player.hand[monsterIndex].attack) {
-            monsterIndex = i;
-          }
-        }
-      }
-      discards.push(player.hand.splice(monsterIndex, 1));
-      console.log(`${player.name} has discarded a weak monster.`)
-    }
-  }
-
-  // If player has less than 7 cards, pick one from main deck.
-  if (player.hand.length < 7) {
-    player.hand.push(deck.splice(0, 1));
-    player.hand = player.hand.flat();
-    console.log(`${player.name} has taken a card from the deck.`)
-  }
-
-  // If player has 2 repeated ingredients, discard one and pick one.
-  else if (checkIfRepeatedIngredients(player.hand)) {
-    let repeatedIndex = checkIfRepeatedIngredients(player.hand);
-    discards.push(player.hand.splice(repeatedIndex, 1));
-    player.hand.push(deck.splice(0, 1));
-    player.hand = player.hand.flat();
-    console.log(`${player.name} has discarded a repeated ingredient and taken a card from the deck.`)
-  }
-
-  // Else, attack with monster
-  else {
-    console.log("Time for a monster attack!")
-    // Find monster with highest attack from player hand
-    opponentAttack = findHighestAttackInMonster(player.hand);
-    console.log(opponentAttack)
-    // Find monster with highest defense from opponent hand (if no monster, 0)
-    defenderDefense = findHighestDefenseInMonster(rival.hand)
-    console.log(defenderDefense)
-    // Compare both
-    // If attacker wins, steal card from opponent. Else, do nothing.
-    if (opponentAttack > defenderDefense) {
-      stolenCard = Math.floor(Math.random() * rival.hand.length);
-      player.hand.push(rival.hand.splice(stolenCard, 1));
-      player.hand = player.hand.flat();
-      console.log(`${player.name} wins! They have stolen a card from their rival's deck.`)
-    } else {
-      console.log(`${player.name} loses. Their rival's cards are safe for now.`)
-    }
-  }
-}
-
 // Let's simulate a game!
 
 // Create two players
@@ -140,7 +20,7 @@ discardsPile = [];
 player1.hand = mainDeck.splice(0, 7);
 
 // If they already satisfy winning condition, return to deck, shuffle and assign again 
-while (checkIf5DifferentIngredients(player1.hand)) {
+while (player1.checkIf5DifferentIngredients()) {
     mainDeck.push(player1.hand);
     mainDeck = mainDeck.flat().sort(function () {
       return Math.random() - 0.5;
@@ -150,7 +30,7 @@ while (checkIf5DifferentIngredients(player1.hand)) {
 
 player2.hand = mainDeck.splice(0, 7);
 
-while (checkIf5DifferentIngredients(player2.hand)) {
+while (player2.checkIf5DifferentIngredients()) {
   mainDeck.push(player2.hand);
   mainDeck = mainDeck.flat().sort(function () {
     return Math.random() - 0.5;
@@ -173,19 +53,23 @@ if (mainDeck.length == 0) {
 
 // Playing rounds
 let round = 1;
-while(round < 10) {
-  playRound(player1, player2, mainDeck, discardsPile);
-if (checkIf5DifferentIngredients(player1.hand)) {
+let maxRounds = 10;
+while(true) {
+  console.log(`ROUND #${round}.`)
+  player1.playRound(player2, mainDeck, discardsPile);
+if (player1.checkIf5DifferentIngredients()) {
+  //console.log(player1.hand)
   console.log(`${player1.name} wins! The game is over.`);
   break;
 }
-playRound(player2, player1, mainDeck, discardsPile);
-if (checkIf5DifferentIngredients(player2.hand)) {
+player2.playRound(player1, mainDeck, discardsPile);
+if (player2.checkIf5DifferentIngredients()) {
   console.log(`${player2.name} wins! The game is over.`);
   break;
 }
 round++;
-if (round == 10) {
-  console.log("Looks like none of our players can prevail. We shall declare this a tie.")
+if (round == maxRounds) {
+  console.log("Looks like none of our players can prevail. We shall declare this a tie.");
+  break;
 }
 }
