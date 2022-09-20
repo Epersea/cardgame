@@ -33,6 +33,27 @@ function checkIfRepeatedIngredients(hand) {
   return false;
 }
 
+// Find highest score in monster
+function findHighestAttackInMonster(hand) {
+  let attackScore = 0;
+  for (let i = 0; i < hand.length; i++) {
+    if (hand[i].attack > attackScore) {
+      attackScore = hand[i].attack;
+    }
+  }
+  return attackScore;
+}
+
+function findHighestDefenseInMonster(hand) {
+  let defenseScore = 0;
+  for (let i = 0; i < hand.length; i++) {
+    if (hand[i].defense > defenseScore) {
+      defenseScore = hand[i].defense;
+    }
+  }
+  return defenseScore;
+}
+
 // Let's simulate a game!
 
 // Create two players
@@ -85,25 +106,44 @@ if (mainDeck.length == 0) {
   discardsPile = [];
   console.log("There are no cards remaining in the deck, so we have shuffled the discard pile.")
 }
-
+console.log(`This is ${player1.name} hand:`)
 console.log(player1.hand);
 
-// If player has less than 7 cards, pick one from main deck.
-if (player1.hand.length < 7) {
-  player1.hand.push(mainDeck.splice(0, 1));
-  console.log(`${player1.name} has taken a card from the deck.`)
+function playRound(player, rival, deck, discards) {
+  // If player has less than 7 cards, pick one from main deck.
+  if (player.hand.length < 7) {
+    player.hand.push(deck.splice(0, 1));
+    console.log(`${player.name} has taken a card from the deck.`)
+  }
+
+  // If player has 2 repeated ingredients, discard one and pick one.
+  else if (checkIfRepeatedIngredients(player.hand)) {
+    let repeatedIndex = checkIfRepeatedIngredients(player.hand);
+    discards.push(player.hand.splice(repeatedIndex, 1));
+    player.hand.push(deck.splice(0, 1));
+    console.log(`${player.name} has discarded a repeated ingredient and taken a card from the deck.`)
+  }
+
+  // Else, attack with monster
+  else {
+    console.log("Time for a monster attack!")
+    // Find monster with highest attack from player hand
+    opponentAttack = findHighestAttackInMonster(player.hand);
+    console.log(opponentAttack)
+    // Find monster with highest defense from opponent hand (if no monster, 0)
+    defenderDefense = findHighestDefenseInMonster(rival.hand)
+    console.log(defenderDefense)
+    // Compare both
+    // If attacker wins, steal card from opponent. Else, do nothing.
+    if (opponentAttack > defenderDefense) {
+      stolenCard = Math.floor(Math.random() * rival.hand.length);
+      player.hand.push(rival.hand.splice(stolenCard, 1));
+      player.hand = player.hand.flat();
+      console.log(`${player.name} wins! They have stolen a card from their rival's deck.`)
+    } else {
+      console.log(`${player.name} loses. Their rival's cards are safe for now.`)
+    }
+  }
 }
 
-// If player has 2 repeated ingredients, discard one and pick one.
-else if (checkIfRepeatedIngredients(player1.hand)) {
-  let repeatedIndex = checkIfRepeatedIngredients(player1.hand);
-  discardsPile.push(player1.hand.splice(repeatedIndex, 1));
-  player1.hand.push(mainDeck.splice(0, 1));
-  console.log(`${player1.name} has discarded a repeated ingredient and taken a card from the deck.`)
-}
-
-else {
-  console.log("Time for a monster attack!")
-}
-
-console.log(player1.hand);
+playRound(player1, player2, mainDeck, discardsPile);
