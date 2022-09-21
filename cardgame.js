@@ -6,9 +6,10 @@ let deck = new DeckOfCards(10, 30).shuffle();
 let discards = [];
 
 console.log("Cards are shuffled...")
+
 let hand = new Hand(deck.splice(0, 7));
 
-while (hand.checkIf5DifferentIngredients()) {
+while (hand.getDifferentIngredients().length > 4) {
   deck.push(hand.cards);
   deck = deck.flat().sort(function () {
     return Math.random() - 0.5;
@@ -18,7 +19,7 @@ while (hand.checkIf5DifferentIngredients()) {
 
 let hand2 = new Hand(deck.splice(0, 7));
 
-while (hand2.checkIf5DifferentIngredients()) {
+while (hand2.getDifferentIngredients().length > 4) {
   deck.push(hand2.cards);
   deck = deck.flat().sort(function () {
     return Math.random() - 0.5;
@@ -26,11 +27,10 @@ while (hand2.checkIf5DifferentIngredients()) {
   hand2.cards = deck.splice(0, 7);
 }
 
-let player1 = new Player('player1', hand.cards);
-let player2 = new Player ('player2', hand2.cards);
+let player1 = new Player('Eva', hand.cards);
+let player2 = new Player ('Paula', hand2.cards);
 
-console.log('Each player has their cards. We are ready to begin!')
-
+console.log('Each player has their cards. We are ready to begin! Our players will try to get 5 different ingredients to make the Ultimate Superpotion and control the Universe.')
 
 // Let's check if there are cards in deck. If not, shuffle discards and reassign.
 
@@ -49,14 +49,13 @@ let maxRounds = 10;
 while(true) {
   console.log(`ROUND #${round}.`)
   player1.playRound(player2, deck, discards);
-if (player1.checkIf5DifferentIngredients()) {
-  //console.log(player1.hand)
-  console.log(`${player1.name} wins! The game is over.`);
+if (player1.getDifferentIngredients().length > 4) {
+  console.log(`${player1.name} wins! Their magic potion ingredients are: ${player1.getDifferentIngredients().join(', ')}. The game is over.`);
   break;
 }
 player2.playRound(player1, deck, discards);
-if (player2.checkIf5DifferentIngredients()) {
-  console.log(`${player2.name} wins! The game is over.`);
+if (player2.getDifferentIngredients().length > 4) {
+  console.log(`${player2.name} wins! Their magic potion ingredients are: ${player2.getDifferentIngredients().join(', ')}. The game is over.`);
   break;
 }
 round++;

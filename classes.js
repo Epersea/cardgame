@@ -53,7 +53,7 @@ class Hand {
     this.cards = cards;
   }
 
-  checkIf5DifferentIngredients() {
+  getDifferentIngredients() {
     const differentIngredients = []
     for (let i = 0; i < this.cards.length; i++) {
         if (this.cards[i].ingredient) {
@@ -62,11 +62,7 @@ class Hand {
               }
         }
     }
-    if (differentIngredients.length >= 5) {
-      return true
-    } else {
-      return false
-    }
+    return differentIngredients;
   }
 
 checkIfRepeatedIngredients() {
@@ -113,7 +109,7 @@ class Player extends Hand {
 
   playRound(rival, deck, discards) {
     // Status check
-    console.log(`This is ${this.name} hand:`)
+    console.log(`This is ${this.name}'s hand:`)
     console.log(this.cards);
   
     // If player has more than 7 cards, discard one
@@ -168,9 +164,9 @@ class Player extends Hand {
         let stolenCard = Math.floor(Math.random() * rival.cards.length);
         this.cards.push(rival.cards.splice(stolenCard, 1));
         this.cards = this.cards.flat();
-        console.log(`${this.name} wins! They have stolen a card from their rival's deck.`)
+        console.log(`${this.name} wins! Their monster has a ${opponentAttack} attack, while the rival's defense is only ${defenderDefense}. They have stolen a card from their rival's deck.`)
       } else {
-        console.log(`${this.name} loses. Their rival's cards are safe for now.`)
+        console.log(`${this.name} loses. Their monster's attack of ${opponentAttack} couldn't beat the enemy's defense of ${defenderDefense}. Their rival's cards are safe for now.`)
       }
     }
   }
