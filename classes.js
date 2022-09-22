@@ -64,8 +64,8 @@ class Hand {
 
   getTotalIngredients() {
     let ingredientCount = 0;
-    for (card of this.cards) {
-      if (card.ingredient) {
+    for (let i = 0; i < this.cards.length; i++) {
+      if (this.cards[i].ingredient) {
         ingredientCount++;
       }
     }
@@ -112,6 +112,18 @@ class Hand {
       return highestAttackMonster;
     }
 
+  findMonsterWithWeakestAttack() {
+    let weakestIndex;
+      for (let i = 0; i < this.cards.length; i++) {
+        if (this.cards[i].attack) {
+          if (!weakestIndex || this.cards[i].attack < this.cards[weakestIndex].attack) {
+            weakestIndex = i;
+          }
+        }
+      }
+      return weakestIndex;
+    }
+
   findHighestDefenseInMonster() {
     let defenseScore = 0;
     for (let i = 0; i < this.cards.length; i++) {
@@ -133,6 +145,14 @@ class Player extends Hand {
     this.cards.push(deck.splice(0, 1));
         this.cards = this.cards.flat();
         console.log(`${this.name} has taken a card from the deck.`)
+  }
+
+  swapWeakMonster(discards, deck) {
+    let weakIndex = this.findMonsterWithWeakestAttack();
+    discards.push(this.cards.splice(weakIndex, 1));
+    this.cards.push(deck.splice(0, 1));
+    this.cards = this.cards.flat();
+    console.log(`${this.name} has discarded a weak monster and taken a card from the deck.`)
   }
 
   swapRepeatedIngredient(discards, deck) {
@@ -173,6 +193,10 @@ class Player extends Hand {
       while (this.cards. length < 7) {
         this.pickCard(deck);
       }
+    }
+
+    else if (this.getTotalIngredients() < 4) {
+      this.swapWeakMonster(discards, deck);
     }
   
     else if (this.checkIfRepeatedIngredients()) {
