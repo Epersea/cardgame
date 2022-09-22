@@ -1,6 +1,6 @@
 const {Hand, DeckOfCards, Player} = require('./classes.js'); 
 
-let deck = new DeckOfCards(20, 40).shuffle();
+let deck = new DeckOfCards(25, 40).shuffle();
 
 let discards = [];
 
