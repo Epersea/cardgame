@@ -21,6 +21,7 @@ At the start of the game, each player is given 7 cards. In each turn, they can:
 - Pick a card from the deck (if they have less than 7 cards in this hand, they have to do this until reaching 7).
 - Discard a card from their hand and pick a new one from the deck.
 - Start a battle between one of their monsters and a one of their rival's. If the attacker's attack value is higher than the defender's defense, the attacker wins. In this case, they can pick a card from the opponent's hand. If the defending player doesn't have any monsters in their hand, the defense is supposed to be 0. The attacking monster card is discarded after the battle.
+
 The first player to get 5 different ingredients wins. If they play 10 rounds without a winner, the game is considered a tie.
 
 ## Classes and objects

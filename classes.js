@@ -43,7 +43,7 @@ class DeckOfCards {
     fullDeck.push(this.monsterCards);
     fullDeck.push(this.ingredientCards);
     return fullDeck.flat().sort(function () {
-        return Math.random() - 0.5;
+      return Math.random() - 0.5;
     });
   }
 
@@ -77,8 +77,8 @@ class Hand {
     for (let i = 0; i < this.cards.length; i++) {
         if (this.cards[i].ingredient) {
             if (!differentIngredients.includes(this.cards[i].ingredient)) {
-                differentIngredients.push(this.cards[i].ingredient)
-              }
+              differentIngredients.push(this.cards[i].ingredient)
+            }
         }
     }
     return differentIngredients;
@@ -91,26 +91,26 @@ class Hand {
         if (previousIngredients.includes(this.cards[i].ingredient)) {
           return i;
       } else {
-        previousIngredients.push(this.cards[i].ingredient);
-          }
+          previousIngredients.push(this.cards[i].ingredient);
         }
-      } 
+      }
+    } 
   return false;
   }
 
   getMonsterWithHighestAttack() {
-      let highestAttackMonster = {
-        score: 0,
-        index: 0
-      }
-      for (let i = 0; i < this.cards.length; i++) {
-        if (this.cards[i].attack > highestAttackMonster.score) {
-          highestAttackMonster.score = this.cards[i].attack;
-          highestAttackMonster.index = i;
-        }
-      }
-      return highestAttackMonster;
+    let highestAttackMonster = {
+      score: 0,
+      index: 0
     }
+    for (let i = 0; i < this.cards.length; i++) {
+      if (this.cards[i].attack > highestAttackMonster.score) {
+        highestAttackMonster.score = this.cards[i].attack;
+        highestAttackMonster.index = i;
+      }
+    }
+    return highestAttackMonster;
+  }
 
   findMonsterWithWeakestAttack() {
     let weakestIndex;
@@ -129,11 +129,11 @@ class Hand {
     for (let i = 0; i < this.cards.length; i++) {
       if (this.cards[i].defense > defenseScore) {
         defenseScore = this.cards[i].defense;
-        }
       }
-    return defenseScore;
     }
+    return defenseScore;
   }
+}
 
 class Player extends Hand {
   constructor(name, cards) {
@@ -143,8 +143,8 @@ class Player extends Hand {
 
   pickCard(deck) {
     this.cards.push(deck.splice(0, 1));
-        this.cards = this.cards.flat();
-        console.log(`${this.name} has taken a card from the deck.`)
+      this.cards = this.cards.flat();
+       console.log(`${this.name} has taken a card from the deck.`)
   }
 
   swapWeakMonster(discards, deck) {
