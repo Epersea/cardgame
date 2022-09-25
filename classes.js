@@ -98,7 +98,7 @@ class Hand {
   return false;
   }
 
-  findMonsterWithHighestAttack() {
+  getMonsterWithHighestAttack() {
       let highestAttackMonster = {
         score: 0,
         index: 0
@@ -124,7 +124,7 @@ class Hand {
       return weakestIndex;
     }
 
-  findHighestDefenseInMonster() {
+  getHighestMonsterDefense() {
     let defenseScore = 0;
     for (let i = 0; i < this.cards.length; i++) {
       if (this.cards[i].defense > defenseScore) {
@@ -165,10 +165,10 @@ class Player extends Hand {
 
   attackWithMonster(rival, discards) {
     console.log("Time for a monster attack!")
-      let opponentAttack = this.findMonsterWithHighestAttack().score;
-      let defenderDefense = rival.findHighestDefenseInMonster();
+      let opponentAttack = this.getMonsterWithHighestAttack().score;
+      let defenderDefense = rival.getHighestMonsterDefense();
       
-      let attackerIndex = this.findMonsterWithHighestAttack().index;
+      let attackerIndex = this.getMonsterWithHighestAttack().index;
       discards.push(this.cards.splice(attackerIndex, 1));
       
       if (opponentAttack > defenderDefense) {

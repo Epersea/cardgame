@@ -21,7 +21,7 @@ At the start of the game, each player is given 7 cards. In each turn, they can:
 - Pick a card from the deck (if they have less than 7 cards in this hand, they have to do this until reaching 7).
 - Discard a card from their hand and pick a new one from the deck.
 - Start a battle between one of their monsters and a one of their rival's. If the attacker's attack value is higher than the defender's defense, the attacker wins. In this case, they can pick a card from the opponent's hand. If the defending player doesn't have any monsters in their hand, the defense is supposed to be 0. The attacking monster card is discarded after the battle.
-- The first player to get 5 different ingredients wins. If they play 10 rounds without a winner, the game is considered a tie.
+The first player to get 5 different ingredients wins. If they play 10 rounds without a winner, the game is considered a tie.
 
 ## Classes and objects
 The main goal of this project was to start programming with classes and objects. In order to simulate the card game, I have created the following classes and instances:
@@ -39,7 +39,7 @@ Alas, our players aren't very intelligent yet and can't learn on their own. In e
 - If none of the conditions above are true, they pick their strongest monster and go to battle.
 
 ## Challenges and future improvements
-This is just a first draft of what a card game program could be –the next obvious step is adding and user interface that lets an user play with a virtual opponent.
+This is just a first draft of what a card game program could be –the next obvious step is adding an user interface that lets users play with a virtual opponent.
 
 Another obvious area of development is the rules of the game itself, for instance, adding new card types and properties.
 
