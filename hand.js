@@ -1,3 +1,6 @@
+const { IngredientCard } = require("./ingredientcard");
+const { MonsterCard } = require("./monstercard");
+
 class Hand {
     constructor(cards) {
       this.cards = cards;
@@ -13,8 +16,8 @@ class Hand {
   
     getTotalIngredients() {
       let ingredientCount = 0;
-      for (let i = 0; i < this.cards.length; i++) {
-        if (this.cards[i].ingredient) {
+      for (let card of this.cards) {
+        if (card instanceof IngredientCard) {
           ingredientCount++;
         }
       }
@@ -23,10 +26,10 @@ class Hand {
   
     getDifferentIngredients() {
       const differentIngredients = []
-      for (let i = 0; i < this.cards.length; i++) {
-          if (this.cards[i].ingredient) {
-              if (!differentIngredients.includes(this.cards[i].ingredient)) {
-                differentIngredients.push(this.cards[i].ingredient)
+      for (let card of this.cards) {
+          if (card instanceof IngredientCard) {
+              if (!differentIngredients.includes(card.ingredient)) {
+                differentIngredients.push(card.ingredient)
               }
           }
       }
@@ -35,12 +38,12 @@ class Hand {
   
     checkIfRepeatedIngredients() {
     const previousIngredients = [];
-    for (let i = 0; i < this.cards.length; i++) {
-      if (this.cards[i].ingredient) {            
-          if (previousIngredients.includes(this.cards[i].ingredient)) {
-            return i;
+    for (let card of this.cards) {
+      if (card instanceof IngredientCard) {            
+          if (previousIngredients.includes(card.ingredient)) {
+            return this.cards.indexOf(card);
         } else {
-            previousIngredients.push(this.cards[i].ingredient);
+            previousIngredients.push(card.ingredient);
           }
         }
       } 
@@ -52,10 +55,10 @@ class Hand {
         score: 0,
         index: 0
       }
-      for (let i = 0; i < this.cards.length; i++) {
-        if (this.cards[i].attack > highestAttackMonster.score) {
-          highestAttackMonster.score = this.cards[i].attack;
-          highestAttackMonster.index = i;
+      for (let card of this.cards) {
+        if (card.attack > highestAttackMonster.score) {
+          highestAttackMonster.score = card.attack;
+          highestAttackMonster.index = this.cards.indexOf(card);
         }
       }
       return highestAttackMonster;
@@ -63,10 +66,10 @@ class Hand {
   
     findMonsterWithWeakestAttack() {
       let weakestIndex;
-        for (let i = 0; i < this.cards.length; i++) {
-          if (this.cards[i].attack) {
-            if (!weakestIndex || this.cards[i].attack < this.cards[weakestIndex].attack) {
-              weakestIndex = i;
+        for (let card of this.cards) {
+          if (card instanceof MonsterCard) {
+            if (!weakestIndex || card.attack < this.cards[weakestIndex].attack) {
+              weakestIndex = this.cards.indexOf(card);
             }
           }
         }
@@ -75,9 +78,9 @@ class Hand {
   
     getHighestMonsterDefense() {
       let defenseScore = 0;
-      for (let i = 0; i < this.cards.length; i++) {
-        if (this.cards[i].defense > defenseScore) {
-          defenseScore = this.cards[i].defense;
+      for (let card of this.cards) {
+        if (card.defense > defenseScore) {
+          defenseScore = card.defense;
         }
       }
       return defenseScore;
