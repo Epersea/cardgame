@@ -1,4 +1,6 @@
-const {Hand, DeckOfCards, Player} = require('./classes.js'); 
+const { DeckOfCards} = require('./deckofcards.js'); 
+const { Hand } = require('./hand.js')
+const { Player } = require('./player.js')
 
 let deck = new DeckOfCards(25, 40).shuffle();
 

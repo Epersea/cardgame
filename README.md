@@ -2,11 +2,11 @@
 
 This is a practical exercise to start using classes and objects in my projects. It involves creating a simulation of a very simple card game. When executing it, two virtual players play against each other and their actions are logged in the console.
 
-The project contains two Javascript files:
+The project contains the following Javascript files:
 
-`classes.js` Main classes and instances are described below.
+- `cardgame.js` This file contains the logic for playing a virtual game between two players. When executing this file in Node.js, a series of statements describing the game's actions are logged to the console.
 
-`cardgame.js` This file contains the logic for playing a virtual game between two players. When executing this file in Node.js, a series of statements describing the game's actions are logged to the console.
+- Class files: `deckofcards.js, hand.js, ingredientcard.js, monstercard.js, player.js`. The classes and instances are detailed below.
 
 This project is inspired by the katayuno meetings at [Devscola](https://devscola.org/), a programming community based in Valencia. The original kata (in Spanish) can be found [here](http://katayuno-app.herokuapp.com/katas/17). 
 
