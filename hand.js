@@ -27,11 +27,9 @@ class Hand {
     getDifferentIngredients() {
       const differentIngredients = []
       for (let card of this.cards) {
-          if (card instanceof IngredientCard) {
-              if (!differentIngredients.includes(card.ingredient)) {
-                differentIngredients.push(card.ingredient)
-              }
-          }
+        if (card instanceof IngredientCard && !differentIngredients.includes(card.ingredient)) {
+            differentIngredients.push(card.ingredient)
+        }
       }
       return differentIngredients;
     }
@@ -39,14 +37,12 @@ class Hand {
     checkIfRepeatedIngredients() {
     const previousIngredients = [];
     for (let card of this.cards) {
-      if (card instanceof IngredientCard) {            
-          if (previousIngredients.includes(card.ingredient)) {
+      if (card instanceof IngredientCard && previousIngredients.includes(card.ingredient)) {            
             return this.cards.indexOf(card);
         } else {
             previousIngredients.push(card.ingredient);
           }
         }
-      } 
     return false;
     }
   
