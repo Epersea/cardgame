@@ -2,31 +2,34 @@ const { DeckOfCards} = require('./deckofcards.js');
 const { Hand } = require('./hand.js')
 const { Player } = require('./player.js')
 
-let deck = new DeckOfCards(25, 40).shuffle();
+const monsterNum = 25;
+const ingredientNum = 40;
 
-let discards = [];
+const deck = new DeckOfCards(monsterNum, ingredientNum).shuffle();
+
+const discards = [];
 
 console.log("Cards are shuffled...")
 
-let hand1 = new Hand(deck.splice(0, 7));
+const hand1 = new Hand(deck.splice(0, 7));
 
 while (hand1.getDifferentIngredients().length > 4) {
   hand1.redistribute(deck);
 }
 
-let hand2 = new Hand(deck.splice(0, 7))
+const hand2 = new Hand(deck.splice(0, 7))
 
 while (hand2.getDifferentIngredients().length > 4) {
   hand2.redistribute(deck);
 }
 
-let player1 = new Player('Player One', hand1.cards);
-let player2 = new Player ('Player Two', hand2.cards);
+const player1 = new Player('Player One', hand1.cards);
+const player2 = new Player ('Player Two', hand2.cards);
 
 console.log('Each player has their cards. We are ready to begin! Our players will try to get 5 different ingredients to make the Ultimate Superpotion and control the Universe.')
 
 let round = 1;
-let maxRounds = 10;
+const maxRounds = 10;
 
 while(true) {
   console.log(`ROUND #${round}.`)

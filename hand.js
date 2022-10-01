@@ -22,7 +22,7 @@ class Hand {
     }
   
     getDifferentIngredients() {
-      let differentIngredients = []
+      const differentIngredients = []
       for (let i = 0; i < this.cards.length; i++) {
           if (this.cards[i].ingredient) {
               if (!differentIngredients.includes(this.cards[i].ingredient)) {
@@ -34,7 +34,7 @@ class Hand {
     }
   
     checkIfRepeatedIngredients() {
-    let previousIngredients = [];
+    const previousIngredients = [];
     for (let i = 0; i < this.cards.length; i++) {
       if (this.cards[i].ingredient) {            
           if (previousIngredients.includes(this.cards[i].ingredient)) {
@@ -48,7 +48,7 @@ class Hand {
     }
   
     getMonsterWithHighestAttack() {
-      let highestAttackMonster = {
+      const highestAttackMonster = {
         score: 0,
         index: 0
       }

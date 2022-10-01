@@ -4,12 +4,12 @@ class MonsterCard {
       this.defense = defense;
     }
   
-    static createRandomMonsterCards(number) {
-      let monsterCards = [];
+    static createRandom(number) {
+      const monsterCards = [];
       for (let i = 1; i <= number; i++) {
-        let randomAttack = Math.floor(Math.random() * 6);
-        let randomDefense = Math.floor(Math.random() * 6);
-        let currentMonster = new MonsterCard(randomAttack, randomDefense);
+        const randomAttack = Math.floor(Math.random() * 6);
+        const randomDefense = Math.floor(Math.random() * 6);
+        const currentMonster = new MonsterCard(randomAttack, randomDefense);
         monsterCards.push(currentMonster)
       }
       return monsterCards;

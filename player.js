@@ -13,7 +13,7 @@ class Player extends Hand {
   }
 
   swapWeakMonster(discards, deck) {
-    let weakIndex = this.findMonsterWithWeakestAttack();
+    const weakIndex = this.findMonsterWithWeakestAttack();
     discards.push(this.cards.splice(weakIndex, 1));
     this.cards.push(deck.splice(0, 1));
     this.cards = this.cards.flat();
@@ -21,7 +21,7 @@ class Player extends Hand {
   }
 
   swapRepeatedIngredient(discards, deck) {
-    let repeatedIndex = this.checkIfRepeatedIngredients();
+    const repeatedIndex = this.checkIfRepeatedIngredients();
     discards.push(this.cards.splice(repeatedIndex, 1));
     this.cards.push(deck.splice(0, 1));
     this.cards = this.cards.flat();
@@ -30,10 +30,10 @@ class Player extends Hand {
 
   attackWithMonster(rival, discards) {
     console.log("Time for a monster attack!")
-      let opponentAttack = this.getMonsterWithHighestAttack().score;
-      let defenderDefense = rival.getHighestMonsterDefense();
+      const opponentAttack = this.getMonsterWithHighestAttack().score;
+      const defenderDefense = rival.getHighestMonsterDefense();
       
-      let attackerIndex = this.getMonsterWithHighestAttack().index;
+      const attackerIndex = this.getMonsterWithHighestAttack().index;
       discards.push(this.cards.splice(attackerIndex, 1));
       
       if (opponentAttack > defenderDefense) {
@@ -45,7 +45,7 @@ class Player extends Hand {
   }
 
   stealCard(rival) {
-    let stolenCardIndex = Math.floor(Math.random() * rival.cards.length);
+    const stolenCardIndex = Math.floor(Math.random() * rival.cards.length);
     this.cards.push(rival.cards.splice(stolenCardIndex, 1));
     this.cards = this.cards.flat();
   }
