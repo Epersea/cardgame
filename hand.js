@@ -27,17 +27,22 @@ class Hand {
     getDifferentIngredients() {
       const differentIngredients = []
       for (let card of this.cards) {
-        if (card instanceof IngredientCard && !differentIngredients.includes(card.ingredient)) {
+        if (this.isDifferentIngredient(card, differentIngredients)) {
             differentIngredients.push(card.ingredient)
         }
       }
       return differentIngredients;
     }
+
+    isDifferentIngredient(card, differentIngredients) {
+        return card instanceof IngredientCard && 
+        !differentIngredients.includes(card.ingredient);
+    }
   
-    checkIfRepeatedIngredients() {
+    findRepeatedIngredients() {
         const previousIngredients = [];
         for (let card of this.cards) {
-            if (card instanceof IngredientCard && previousIngredients.includes(card.ingredient)) {            
+            if (this.isRepeated(card, previousIngredients)) {            
                 return this.cards.indexOf(card);
             } else {
                 previousIngredients.push(card.ingredient);
@@ -45,8 +50,13 @@ class Hand {
         }
         return false;
     }
+
+    isRepeated(card, previousIngredients) {
+        return card instanceof IngredientCard && 
+        previousIngredients.includes(card.ingredient)
+    }
   
-    getMonsterWithHighestAttack() {
+    findMonsterWithHighestAttack() {
       const highestAttackMonster = {
         score: 0,
         index: 0
@@ -64,12 +74,16 @@ class Hand {
         let weakestIndex;
         for (let card of this.cards) {
           if (card instanceof MonsterCard) {
-            if (!weakestIndex || card.attack < this.cards[weakestIndex].attack) {
+            if (this.isWeakest(card, weakestIndex)) {
               weakestIndex = this.cards.indexOf(card);
             }
           }
         }
         return weakestIndex;
+    }
+
+    isWeakest (card, weakestIndex) {
+        !weakestIndex || card.attack < this.cards[weakestIndex].attack
     }
   
     getHighestMonsterDefense() {

@@ -21,7 +21,7 @@ class Player extends Hand {
   }
 
   swapRepeatedIngredient(discards, deck) {
-    const repeatedIndex = this.checkIfRepeatedIngredients();
+    const repeatedIndex = this.findRepeatedIngredients();
     discards.push(this.cards.splice(repeatedIndex, 1));
     this.cards.push(deck.splice(0, 1));
     this.cards = this.cards.flat();
@@ -30,9 +30,9 @@ class Player extends Hand {
 
   attackWithMonster(rival, discards) {
     console.log("Time for a monster attack!")
-    const opponentAttack = this.getMonsterWithHighestAttack().score;
+    const opponentAttack = this.findMonsterWithHighestAttack().score;
     const defenderDefense = rival.getHighestMonsterDefense();
-    const attackerIndex = this.getMonsterWithHighestAttack().index;
+    const attackerIndex = this.findMonsterWithHighestAttack().index;
     discards.push(this.cards.splice(attackerIndex, 1));
       
     if (opponentAttack > defenderDefense) {
@@ -63,7 +63,7 @@ class Player extends Hand {
       this.swapWeakMonster(discards, deck);
     }
   
-    else if (this.checkIfRepeatedIngredients()) {
+    else if (this.findRepeatedIngredients()) {
       this.swapRepeatedIngredient(discards, deck);
     }
   
