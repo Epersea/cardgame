@@ -7,24 +7,21 @@ class Player extends Hand {
   }
 
   pickCard(deck) {
-    this.cards.push(deck.splice(0, 1));
-      this.cards = this.cards.flat();
-      console.log(`${this.name} has taken a card from the deck.`)
+    this.cards.push(deck.shift());
+    console.log(`${this.name} has taken a card from the deck.`)
   }
 
   swapWeakMonster(discards, deck) {
     const weakIndex = this.findMonsterWithWeakestAttack();
     discards.push(this.cards.splice(weakIndex, 1));
-    this.cards.push(deck.splice(0, 1));
-    this.cards = this.cards.flat();
+    this.cards.push(deck.shift());
     console.log(`${this.name} has discarded a weak monster and taken a card from the deck.`)
   }
 
   swapRepeatedIngredient(discards, deck) {
     const repeatedIndex = this.findRepeatedIngredients();
     discards.push(this.cards.splice(repeatedIndex, 1));
-    this.cards.push(deck.splice(0, 1));
-    this.cards = this.cards.flat();
+    this.cards.push(deck.shift());
     console.log(`${this.name} has discarded a repeated ingredient and taken a card from the deck.`)
   }
 
