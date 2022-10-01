@@ -87,13 +87,13 @@ class Hand {
     }
   
     getHighestMonsterDefense() {
-      let defenseScore = 0;
+      let monsterDefenses = [0];
       for (let card of this.cards) {
-        if (card.defense > defenseScore) {
-          defenseScore = card.defense;
+        if (card.defense) {
+            monsterDefenses.push(card.defense);
         }
       }
-      return defenseScore;
+      return Math.max(...monsterDefenses);
     }
   }
 
