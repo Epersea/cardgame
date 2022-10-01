@@ -9,7 +9,7 @@ class Hand {
     redistribute(deck) {
       deck.push(this.cards);
       deck = deck.flat().sort(function () {
-      return Math.random() - 0.5;
+        return Math.random() - 0.5;
       });
       this.cards = deck.splice(0, 7);
     }
@@ -35,15 +35,15 @@ class Hand {
     }
   
     checkIfRepeatedIngredients() {
-    const previousIngredients = [];
-    for (let card of this.cards) {
-      if (card instanceof IngredientCard && previousIngredients.includes(card.ingredient)) {            
-            return this.cards.indexOf(card);
-        } else {
-            previousIngredients.push(card.ingredient);
-          }
+        const previousIngredients = [];
+        for (let card of this.cards) {
+            if (card instanceof IngredientCard && previousIngredients.includes(card.ingredient)) {            
+                return this.cards.indexOf(card);
+            } else {
+                previousIngredients.push(card.ingredient);
+            }
         }
-    return false;
+        return false;
     }
   
     getMonsterWithHighestAttack() {
@@ -61,7 +61,7 @@ class Hand {
     }
   
     findMonsterWithWeakestAttack() {
-      let weakestIndex;
+        let weakestIndex;
         for (let card of this.cards) {
           if (card instanceof MonsterCard) {
             if (!weakestIndex || card.attack < this.cards[weakestIndex].attack) {
@@ -70,7 +70,7 @@ class Hand {
           }
         }
         return weakestIndex;
-      }
+    }
   
     getHighestMonsterDefense() {
       let defenseScore = 0;

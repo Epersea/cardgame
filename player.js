@@ -9,7 +9,7 @@ class Player extends Hand {
   pickCard(deck) {
     this.cards.push(deck.splice(0, 1));
       this.cards = this.cards.flat();
-       console.log(`${this.name} has taken a card from the deck.`)
+      console.log(`${this.name} has taken a card from the deck.`)
   }
 
   swapWeakMonster(discards, deck) {
@@ -30,18 +30,17 @@ class Player extends Hand {
 
   attackWithMonster(rival, discards) {
     console.log("Time for a monster attack!")
-      const opponentAttack = this.getMonsterWithHighestAttack().score;
-      const defenderDefense = rival.getHighestMonsterDefense();
+    const opponentAttack = this.getMonsterWithHighestAttack().score;
+    const defenderDefense = rival.getHighestMonsterDefense();
+    const attackerIndex = this.getMonsterWithHighestAttack().index;
+    discards.push(this.cards.splice(attackerIndex, 1));
       
-      const attackerIndex = this.getMonsterWithHighestAttack().index;
-      discards.push(this.cards.splice(attackerIndex, 1));
-      
-      if (opponentAttack > defenderDefense) {
-        this.stealCard(rival)
-        console.log(`${this.name}'s monster wins! They have an attack of ${opponentAttack}, while the enemy's defense is only ${defenderDefense}. They have stolen a card from their rival's deck.`)
-      } else {
-        console.log(`${this.name}'s monster loses! Their attack of ${opponentAttack} couldn't beat the enemy's defense of ${defenderDefense}. Their rival's cards are safe for now.`)
-      }
+    if (opponentAttack > defenderDefense) {
+      this.stealCard(rival)
+      console.log(`${this.name}'s monster wins! They have an attack of ${opponentAttack}, while the enemy's defense is only ${defenderDefense}. They have stolen a card from their rival's deck.`)
+    } else {
+      console.log(`${this.name}'s monster loses! Their attack of ${opponentAttack} couldn't beat the enemy's defense of ${defenderDefense}. Their rival's cards are safe for now.`)
+    }
   }
 
   stealCard(rival) {
