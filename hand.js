@@ -83,7 +83,7 @@ class Hand {
     }
 
     isWeakest (card, weakestIndex) {
-        !weakestIndex || card.attack < this.cards[weakestIndex].attack
+        !weakestIndex || card.attack < this.cards[weakestIndex].attack;
     }
   
     getHighestMonsterDefense() {

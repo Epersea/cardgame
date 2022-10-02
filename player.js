@@ -13,23 +13,26 @@ class Player extends Hand {
 
   swapWeakMonster(discards, deck) {
     const weakIndex = this.findMonsterWithWeakestAttack();
-    discards.push(this.cards.splice(weakIndex, 1));
-    this.cards.push(deck.shift());
-    console.log(`${this.name} has discarded a weak monster and taken a card from the deck.`)
+    this.swapCard(discards, weakIndex, deck, 'weak monster');
   }
 
   swapRepeatedIngredient(discards, deck) {
     const repeatedIndex = this.findRepeatedIngredients();
-    discards.push(this.cards.splice(repeatedIndex, 1));
+    this.swapCard(discards, repeatedIndex, deck, 'repeated ingredient');
+  }
+
+  swapCard(discards, index, deck, cardType) {
+    discards.push(this.cards.splice(index, 1));
     this.cards.push(deck.shift());
-    console.log(`${this.name} has discarded a repeated ingredient and taken a card from the deck.`)
+    console.log(`${this.name} has discarded a ${cardType} and taken a card from the deck.`)
   }
 
   attackWithMonster(rival, discards) {
     console.log("Time for a monster attack!")
-    const opponentAttack = this.findMonsterWithHighestAttack().score;
+    const strongestMonster = this.findMonsterWithHighestAttack()
+    const opponentAttack = strongestMonster.score;
     const defenderDefense = rival.getHighestMonsterDefense();
-    const attackerIndex = this.findMonsterWithHighestAttack().index;
+    const attackerIndex = strongestMonster.index;
     discards.push(this.cards.splice(attackerIndex, 1));
       
     if (opponentAttack > defenderDefense) {
