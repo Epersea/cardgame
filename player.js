@@ -34,12 +34,15 @@ class Player extends Hand {
     const defenderDefense = rival.getHighestMonsterDefense();
     const attackerIndex = strongestMonster.index;
     discards.push(this.cards.splice(attackerIndex, 1));
+
+    const winMessage =  `${this.name}'s monster wins! They have an attack of ${opponentAttack}, while the enemy's defense is only ${defenderDefense}. They have stolen a card from their rival's deck.`;
+    const loseMessage = `${this.name}'s monster loses! Their attack of ${opponentAttack} couldn't beat the enemy's defense of ${defenderDefense}. Their rival's cards are safe for now.`
       
     if (opponentAttack > defenderDefense) {
       this.stealCard(rival)
-      console.log(`${this.name}'s monster wins! They have an attack of ${opponentAttack}, while the enemy's defense is only ${defenderDefense}. They have stolen a card from their rival's deck.`)
+      console.log(winMessage)
     } else {
-      console.log(`${this.name}'s monster loses! Their attack of ${opponentAttack} couldn't beat the enemy's defense of ${defenderDefense}. Their rival's cards are safe for now.`)
+      console.log(loseMessage)
     }
   }
 
