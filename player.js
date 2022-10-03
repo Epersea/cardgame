@@ -1,39 +1,37 @@
-const { Hand } = require('./hand.js')
-
-class Player extends Hand {
-  constructor(name, cards) {
-    super(cards);
+class Player {
+  constructor(name, hand) {
+    this.hand = hand;
     this.name = name;
   }
 
   pickCard(deck) {
-    this.cards.push(deck.shift());
+    this.hand.cards.push(deck.shift());
     console.log(`${this.name} has taken a card from the deck.`)
   }
 
   swapWeakMonster(discards, deck) {
-    const weakIndex = this.findMonsterWithWeakestAttack();
+    const weakIndex = this.hand.findMonsterWithWeakestAttack();
     this.swapCard(discards, weakIndex, deck, 'weak monster');
   }
 
   swapRepeatedIngredient(discards, deck) {
-    const repeatedIndex = this.findRepeatedIngredients();
+    const repeatedIndex = this.hand.findRepeatedIngredients();
     this.swapCard(discards, repeatedIndex, deck, 'repeated ingredient');
   }
 
   swapCard(discards, index, deck, cardType) {
-    discards.push(this.cards.splice(index, 1));
-    this.cards.push(deck.shift());
+    discards.push(this.hand.cards.splice(index, 1));
+    this.hand.cards.push(deck.shift());
     console.log(`${this.name} has discarded a ${cardType} and taken a card from the deck.`)
   }
 
   attackWithMonster(rival, discards) {
     console.log("Time for a monster attack!")
-    const strongestMonster = this.findMonsterWithHighestAttack()
+    const strongestMonster = this.hand.findMonsterWithHighestAttack()
     const opponentAttack = strongestMonster.score;
-    const defenderDefense = rival.getHighestMonsterDefense();
+    const defenderDefense = rival.hand.getHighestMonsterDefense();
     const attackerIndex = strongestMonster.index;
-    discards.push(this.cards.splice(attackerIndex, 1));
+    discards.push(this.hand.cards.splice(attackerIndex, 1));
 
     const winMessage =  `${this.name}'s monster wins! They have an attack of ${opponentAttack}, while the enemy's defense is only ${defenderDefense}. They have stolen a card from their rival's deck.`;
     const loseMessage = `${this.name}'s monster loses! Their attack of ${opponentAttack} couldn't beat the enemy's defense of ${defenderDefense}. Their rival's cards are safe for now.`
@@ -47,26 +45,26 @@ class Player extends Hand {
   }
 
   stealCard(rival) {
-    const stolenCardIndex = Math.floor(Math.random() * rival.cards.length);
-    this.cards.push(rival.cards.splice(stolenCardIndex, 1));
-    this.cards = this.cards.flat();
+    const stolenCardIndex = Math.floor(Math.random() * rival.hand.cards.length);
+    this.hand.cards.push(rival.hand.cards.splice(stolenCardIndex, 1));
+    this.hand.cards = this.hand.cards.flat();
   }
 
   playRound(rival, deck, discards) {
     console.log(`This is ${this.name}'s hand:`)
-    console.log(this.cards);
+    console.log(this.hand.cards);
 
-    if (this.cards.length < 7) {
-      while (this.cards. length < 7) {
+    if (this.hand.cards.length < 7) {
+      while (this.hand.cards.length < 7) {
         this.pickCard(deck);
       }
     }
 
-    else if (this.getTotalIngredients() < 4) {
+    else if (this.hand.getTotalIngredients() < 4) {
       this.swapWeakMonster(discards, deck);
     }
   
-    else if (this.findRepeatedIngredients()) {
+    else if (this.hand.findRepeatedIngredients()) {
       this.swapRepeatedIngredient(discards, deck);
     }
   

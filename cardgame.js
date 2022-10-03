@@ -23,8 +23,8 @@ while (hand2.getDifferentIngredients().length > 4) {
   hand2.redistribute(deck);
 }
 
-const player1 = new Player('Player One', hand1.cards);
-const player2 = new Player ('Player Two', hand2.cards);
+const player1 = new Player('Player One', hand1);
+const player2 = new Player ('Player Two', hand2);
 
 console.log('Each player has their cards. We are ready to begin! Our players will try to get 5 different ingredients to make the Ultimate Superpotion and control the Universe.')
 
@@ -36,15 +36,15 @@ while(true) {
 
   player1.playRound(player2, deck, discards);
 
-  if (player1.getDifferentIngredients().length > 4) {
-    console.log(`${player1.name} wins! Their Ultimate Superpotion ingredients are: ${player1.getDifferentIngredients().join(', ')}. The game is over.`);
+  if (player1.hand.getDifferentIngredients().length > 4) {
+    console.log(`${player1.name} wins! Their Ultimate Superpotion ingredients are: ${player1.hand.getDifferentIngredients().join(', ')}. The game is over.`);
     break;
   }
 
   player2.playRound(player1, deck, discards);
 
-  if (player2.getDifferentIngredients().length > 4) {
-    console.log(`${player2.name} wins! Their Ultimate Superpotion ingredients are: ${player2.getDifferentIngredients().join(', ')}. The game is over.`);
+  if (player2.hand.getDifferentIngredients().length > 4) {
+    console.log(`${player2.name} wins! Their Ultimate Superpotion ingredients are: ${player2.hand.getDifferentIngredients().join(', ')}. The game is over.`);
     break;
   }
 

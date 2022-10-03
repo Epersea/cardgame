@@ -2,6 +2,7 @@ class IngredientCard {
     constructor(ingredient) {
       this.ingredient = ingredient;
     }
+    
     static createRandom(number) {
       const ingredientCards = []
       const ingredientOptions = ["cat whisker", "unicorn horn", "chicken lip", "dragon's breath", "dandruff", "rue", "antimony"];
