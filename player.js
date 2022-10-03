@@ -10,12 +10,12 @@ class Player {
   }
 
   swapWeakMonster(discards, deck) {
-    const weakIndex = this.hand.findMonsterWithWeakestAttack();
+    const weakIndex = this.hand.findWeakestMonster();
     this.swapCard(discards, weakIndex, deck, 'weak monster');
   }
 
   swapRepeatedIngredient(discards, deck) {
-    const repeatedIndex = this.hand.findRepeatedIngredients();
+    const repeatedIndex = this.hand.getIndexOf1stRepeatedIngredient();
     this.swapCard(discards, repeatedIndex, deck, 'repeated ingredient');
   }
 
@@ -64,7 +64,7 @@ class Player {
       this.swapWeakMonster(discards, deck);
     }
   
-    else if (this.hand.findRepeatedIngredients()) {
+    else if (this.hand.getIndexOf1stRepeatedIngredient()) {
       this.swapRepeatedIngredient(discards, deck);
     }
   

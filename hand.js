@@ -25,21 +25,12 @@ class Hand {
     }
   
     getDifferentIngredients() {
-      const differentIngredients = []
-      for (let card of this.cards) {
-        if (this.isDifferentIngredient(card, differentIngredients)) {
-            differentIngredients.push(card.ingredient)
-        }
-      }
-      return differentIngredients;
-    }
-
-    isDifferentIngredient(card, differentIngredients) {
-        return card instanceof IngredientCard && 
-        !differentIngredients.includes(card.ingredient);
+      const ingredientCards = this.cards.filter(card => card instanceof IngredientCard);
+      const ingredients = ingredientCards.map(card => card.ingredient);
+      return [...new Set(ingredients)];
     }
   
-    findRepeatedIngredients() {
+    getIndexOf1stRepeatedIngredient() {
         const previousIngredients = [];
         for (let card of this.cards) {
             if (this.isRepeated(card, previousIngredients)) {            
@@ -48,7 +39,7 @@ class Hand {
                 previousIngredients.push(card.ingredient);
             }
         }
-        return false;
+        return undefined;
     }
 
     isRepeated(card, previousIngredients) {
@@ -70,20 +61,30 @@ class Hand {
       return highestAttackMonster;
     }
   
-    findMonsterWithWeakestAttack() {
-        let weakestIndex;
+    findWeakestMonster() {
+        let lowestAttackMonsterIndexes = [];
         for (let card of this.cards) {
           if (card instanceof MonsterCard) {
-            if (this.isWeakest(card, weakestIndex)) {
-              weakestIndex = this.cards.indexOf(card);
+            if (this.isWeakest(card, lowestAttackMonsterIndexes)) {
+              lowestAttackMonsterIndexes.push(this.cards.indexOf(card));
             }
           }
         }
-        return weakestIndex;
+        if (lowestAttackMonsterIndexes.length === 1) {
+          return lowestAttackMonsterIndexes[0];
+        } 
+        let weakestMonsterIndex;
+        for (let index of lowestAttackMonsterIndexes) {
+          if (!weakestMonsterIndex || this.cards[index].defense < this.cards[weakestMonsterIndex].defense) {
+            weakestMonsterIndex = index;
+          }
+        }
+        return weakestMonsterIndex;
+      
     }
 
-    isWeakest (card, weakestIndex) {
-        !weakestIndex || card.attack < this.cards[weakestIndex].attack;
+    isWeakest (card, lowestAttackMonsterIndexes) {
+        return lowestAttackMonsterIndexes.length < 1 || card.attack < this.cards[lowestAttackMonsterIndexes[lowestAttackMonsterIndexes.length - 1]].attack;
     }
   
     getHighestMonsterDefense() {
