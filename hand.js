@@ -62,29 +62,35 @@ class Hand {
     }
   
     findWeakestMonster() {
-        let lowestAttackMonsterIndexes = [];
-        for (let card of this.cards) {
-          if (card instanceof MonsterCard) {
-            if (this.isWeakest(card, lowestAttackMonsterIndexes)) {
-              lowestAttackMonsterIndexes.push(this.cards.indexOf(card));
-            }
-          }
-        }
-        if (lowestAttackMonsterIndexes.length === 1) {
-          return lowestAttackMonsterIndexes[0];
-        } 
-        let weakestMonsterIndex;
-        for (let index of lowestAttackMonsterIndexes) {
-          if (!weakestMonsterIndex || this.cards[index].defense < this.cards[weakestMonsterIndex].defense) {
-            weakestMonsterIndex = index;
-          }
-        }
-        return weakestMonsterIndex;
-      
+      const weakMonsterIndexes = this.findMonstersWithLowestAttack();
+      return this.findMonsterWithLowestDefense(weakMonsterIndexes);
     }
 
-    isWeakest (card, lowestAttackMonsterIndexes) {
-        return lowestAttackMonsterIndexes.length < 1 || card.attack < this.cards[lowestAttackMonsterIndexes[lowestAttackMonsterIndexes.length - 1]].attack;
+    findMonstersWithLowestAttack() {
+      const monsterCards = this.cards.filter(card => card instanceof MonsterCard);
+      const monsterAttacks = monsterCards.map(card => card.attack);
+      const minAttack = Math.min(...monsterAttacks)
+      let lowestAttackMonsterIndexes = [];
+      for (let card of monsterCards) {
+        if (card.attack === minAttack) {
+          lowestAttackMonsterIndexes.push(this.cards.indexOf(card))
+        }
+      }
+      return lowestAttackMonsterIndexes;
+    }
+
+    findMonsterWithLowestDefense(weakMonsterIndexes) {
+      if (weakMonsterIndexes.length === 1) {
+        return weakMonsterIndexes[0];
+      } 
+
+      let weakestMonsterIndex;
+      for (let index of weakMonsterIndexes) {
+        if (!weakestMonsterIndex || this.cards[index].defense < this.cards[weakestMonsterIndex].defense) {
+          weakestMonsterIndex = index;
+        }
+      }
+      return weakestMonsterIndex;
     }
   
     getHighestMonsterDefense() {
