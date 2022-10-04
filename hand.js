@@ -86,11 +86,15 @@ class Hand {
 
       let weakestMonsterIndex;
       for (let index of weakMonsterIndexes) {
-        if (!weakestMonsterIndex || this.cards[index].defense < this.cards[weakestMonsterIndex].defense) {
+        if (this.hasLowestDefense(index, weakestMonsterIndex)) {
           weakestMonsterIndex = index;
         }
       }
       return weakestMonsterIndex;
+    }
+
+    hasLowestDefense(index, weakestMonsterIndex) {
+      return !weakestMonsterIndex || this.cards[index].defense < this.cards[weakestMonsterIndex].defense;
     }
   
     getHighestMonsterDefense() {
