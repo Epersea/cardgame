@@ -30,7 +30,7 @@ The main goal of this project was to start programming with classes and objects.
 - Class IngredientCard, with a similar method.
 - Class Deck: to create a Deck object, we need to specify the number of each type of card, which are created and added to our new object. The `shuffle()` method combines both types of cards in a single array, sorted at random.
 - Class Hand: each instance of this object includes a certain number of cards. When instanciating it, the cards are already shuffled. It has a series of methods that allow us to execute different features of the gameplay: redistribute cards (to ensure the initial hand doesn't satisfy the winning condition), get total number of ingredient cards, get an array of different ingredients, check if any ingredient is repeated, get the monsters with the highest and lowest attack score and get the highest defense score.
-- Class Player: this is a child class from Hand. Each player has a name and a hand of cards that inherit Hand's methods. It also has a number of methods of its own, that come together to allow us to play a full round: pick a card from the deck, swap a weak monster, swap a repeated ingredient, attack with a monster and steal an opponent's card.
+- Class Player: each player has a name and a hand of cards that can use Hand's methods. It also has a number of methods of its own, that come together to allow us to play a full round: pick a card from the deck, swap a weak monster, swap a repeated ingredient, attack with a monster and steal an opponent's card.
 
 ## Player behaviour
 Alas, our players aren't very intelligent yet and can't learn on their own. In each round, they follow the same logic:
